@@ -33,13 +33,18 @@ def create_executable():
         'pyinstaller',
         '--onefile',  # Single executable file
         '--name=instagram-scraper',  # Name of executable
+        '--add-data=src:src',  # Include src directory
         '--add-data=.env.example:.', # Include .env.example
+        '--add-data=data/input.csv:data',  # Include sample input
         '--hidden-import=playwright',
         '--hidden-import=httpx',
         '--hidden-import=bs4',
         '--hidden-import=rich',
+        '--hidden-import=lxml',
+        '--hidden-import=dotenv',
         '--collect-all=playwright',
-        'src/cli.py'
+        '--clean',
+        'main.py'
     ]
     
     try:

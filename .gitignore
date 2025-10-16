@@ -208,7 +208,8 @@ __marimo__/
 
 # Project specific
 data/output.csv
+data/demo_*.csv
 scraper.log
 .env
-instagram-scraper-dist.zip
 instagram-scraper-dist/
+*.spec

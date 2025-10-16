@@ -12,10 +12,15 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 import csv
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
-
-from scraper import InstagramScraper
+# Handle imports for both script and frozen executable
+if getattr(sys, 'frozen', False):
+    # Running as compiled executable
+    import scraper
+    InstagramScraper = scraper.InstagramScraper
+else:
+    # Running as script - add src to path
+    sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+    from scraper import InstagramScraper
 
 console = Console()
 
