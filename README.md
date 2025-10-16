@@ -24,3 +24,23 @@
 - 仅抓取用户公开信息；遵守 Instagram 服务条款与 robots.txt；控制请求频率（建议 RATE_LIMIT_QPS=0.3）。
 - 启发式字段（email/phone/gender/age/region）可能不准确，请自行验证。
 - MIT 许可证，使用者自负合规与风险。
+
+## 常见问题与排查
+
+- 未安装浏览器内核
+  - 执行：playwright install chromium
+- 登录/安全验证/2FA
+  - 设置 HEADLESS=false，使用可视化窗口完成一次登录；降低 RATE_LIMIT_QPS；必要时删除 .playwright/state.json 后重试
+- 429/验证码/被限流
+  - 降低 QPS（建议 0.2–0.5），配置 PROXY_URL，增加 RETRY_ATTEMPTS/RETRY_BACKOFF
+- Windows 脚本执行策略
+  - PowerShell 以管理员运行，或在当前会话放宽：Set-ExecutionPolicy -Scope Process Bypass
+- 解析为空或 httpx 抓不到内容
+  - 先用 Playwright 登录一次生成 .playwright/state.json，再用 --httpx；必要时提高超时 TIMEOUT_SECONDS
+- 依赖安装问题（如 lxml）
+  - 升级 pip：python -m pip install -U pip；确保使用与平台匹配的预编译轮子；Windows 需安装 VC Build Tools
+
+## 在脚本中演示 --httpx
+
+- Windows（PowerShell）：scripts\setup_win.ps1 -Httpx
+- macOS/Linux（bash）：bash scripts/setup_unix.sh --httpx

@@ -1,3 +1,7 @@
+param(
+  [switch]$Httpx = $false
+)
+
 $ErrorActionPreference = "Stop"
 
 Write-Host "=> 创建虚拟环境"
@@ -26,6 +30,12 @@ nasa
 }
 
 Write-Host "=> 运行抓取"
-igscrape -i data\input.csv -o data\output.csv
+if ($Httpx) {
+  Write-Host "使用 httpx+Cookies 模式（需先完成一次登录以生成 .playwright/state.json）"
+  igscrape -i data\input.csv -o data\output.csv --httpx
+} else {
+  igscrape -i data\input.csv -o data\output.csv
+}
 
 Write-Host "完成，结果见 data\output.csv"
+Write-Host "提示：传入 -Httpx 可演示 httpx 抓取方式"

@@ -19,7 +19,14 @@ natgeo
 nasa
 CSV
 
+HTTPX_FLAG=""
+if [ "${1:-}" = "--httpx" ]; then
+  echo "使用 httpx+Cookies 模式（需先完成一次登录以生成 .playwright/state.json）"
+  HTTPX_FLAG="--httpx"
+fi
+
 echo "=> 运行抓取"
-igscrape -i data/input.csv -o data/output.csv
+igscrape -i data/input.csv -o data/output.csv $HTTPX_FLAG
 
 echo "完成，结果见 data/output.csv"
+echo "提示：传入 --httpx 可演示 httpx 抓取方式"
