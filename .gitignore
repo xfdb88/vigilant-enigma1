@@ -211,3 +211,4 @@ __marimo__/
 *.pyo
 .venv/
 output.csv
+.playwright/

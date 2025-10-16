@@ -6,8 +6,8 @@ import os
 from typing import List
 
 from dotenv import load_dotenv
-
 from .scraper import scrape_urls, write_csv
+from .logger import init_logger
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(prog="scrape", description="Minimal async scraper")
@@ -20,6 +20,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     load_dotenv()
+    logger = init_logger()
     args = parse_args()
 
     urls: List[str] = []
@@ -30,9 +31,9 @@ def main() -> None:
             urls.extend([line.strip() for line in f if line.strip()])
 
     if not urls:
-        print("未提供 URL。使用 --url 或 --infile。")
+        logger.warning("未提供 URL。使用 --url 或 --infile。")
         return
-
+    logger.info("开始抓取，共 %d 个 URL", len(urls))
     results = asyncio.run(scrape_urls(urls, use_browser=args.browser, concurrency=args.concurrency))
     write_csv(results, args.out)
-    print(f"完成，已写出 {args.out}")
+    logger.info("完成，已写出 %s", args.out)
