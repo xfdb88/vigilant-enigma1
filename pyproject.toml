@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vigilant-enigma1"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "Minimal async web scraper with httpx/BeautifulSoup, optional Playwright, dotenv, tqdm, tenacity, CSV/pandas output."
+authors = [{ name = "you" }]
+dependencies = [
+  "httpx>=0.27",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.2",
+  "python-dotenv>=1.0",
+  "tqdm>=4.66",
+  "tenacity>=8.2",
+]
+
+[project.optional-dependencies]
+browser = ["playwright>=1.48", "playwright-stealth>=1.0.6"]
+data = ["pandas>=2.1"]
+all = ["playwright>=1.48", "playwright-stealth>=1.0.6", "pandas>=2.1"]
+
+[project.scripts]
+scrape = "vigilant_enigma1.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["vigilant_enigma1*"]
